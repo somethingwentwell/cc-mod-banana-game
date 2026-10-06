@@ -1,0 +1,86 @@
+{
+  "version": "1",
+  "minVersion": "0.1.0",
+  "economy": {
+    "windowHours": 168,
+    "budgetUsd": 10,
+    "unitUsd": 1,
+    "minCoinsPerUsd": 500,
+    "fallbackCoinsPerUsd": 1000
+  },
+  "gateway": {
+    "name": "Banana Sponsor gateway",
+    "url": "https://example.com/gateway",
+    "hint": "Register, then run /banana link <your username> here."
+  },
+  "sponsor": {
+    "name": "Banana Sponsor",
+    "tagline": "Click while Claude thinks. Earn LLM tokens.",
+    "color": "yellow",
+    "banner": [
+      "  _______  ",
+      " / _____ \\ ",
+      "| |BANANA| |",
+      " \\_______/ "
+    ],
+    "logoHeight": 72,
+    "lines": [
+      "Every click earns coins; coins buy $1 of LLM tokens.",
+      "Coins and bananas are void after 7 days. Lifetime totals stay."
+    ],
+    "url": "https://example.com/banana-sponsor",
+    "urlLabel": "About the sponsor"
+  },
+  "banana": {
+    "name": "Banana Sponsor Banana",
+    "buttonLabel": "🍌 CLICK THE BANANA 🍌"
+  },
+  "specials": [
+    {
+      "id": "common",
+      "name": "Yellow Banana",
+      "glyph": "🍌",
+      "rarity": "common",
+      "chance": 0.1,
+      "sellValue": 5
+    },
+    {
+      "id": "rare",
+      "name": "Green Banana",
+      "glyph": "🟢",
+      "rarity": "rare",
+      "chance": 0.02,
+      "sellValue": 25
+    },
+    {
+      "id": "epic",
+      "name": "Blue Banana",
+      "glyph": "🔵",
+      "rarity": "epic",
+      "chance": 0.004,
+      "sellValue": 150
+    },
+    {
+      "id": "legendary",
+      "name": "Golden Banana",
+      "glyph": "⭐",
+      "rarity": "legendary",
+      "chance": 0.0005,
+      "sellValue": 1000
+    }
+  ],
+  "gifts": [
+    {
+      "id": "llm-tokens",
+      "name": "LLM tokens",
+      "sponsor": "Banana Sponsor",
+      "usd": 1,
+      "stock": 10,
+      "claim": {
+        "kind": "gateway"
+      },
+      "description": "$1 of LLM API credit, topped up on your gateway account"
+    }
+  ],
+  "notes": "Shop sells LLM tokens only for now, paid out as a quota top-up on the player's gateway (New API / One API) account. economy: a $10 budget per 7-day window shared pro-rata; coins per $1 = coins everyone earned in the window ÷ 10, floor 500."
+}

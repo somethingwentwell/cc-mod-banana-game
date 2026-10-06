@@ -1,0 +1,7 @@
+# gateway.{$DOMAIN} -> New API, banana.{$DOMAIN} -> banana server
+gateway.{$DOMAIN} {
+  reverse_proxy new-api:3000
+}
+banana.{$DOMAIN} {
+  reverse_proxy banana:8787
+}

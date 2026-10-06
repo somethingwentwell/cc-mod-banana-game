@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Banana flow</title>
+<style>
+  body { margin: 0; background: #1e1e1e; color: #d4d4d4; font: 12px/1.45 "SF Mono", Menlo, monospace; }
+  .grid { display: grid; grid-template-columns: repeat(3, 420px); gap: 18px; padding: 18px; }
+  .step { display: flex; flex-direction: column; gap: 6px; }
+  .num { color: #e5c07b; font-weight: 700; font-size: 13px; }
+  .num span { color: #aaa; font-weight: 400; }
+  .pane { background: #252526; border: 1px solid #3c3c3c; border-radius: 8px; width: 420px; box-sizing: border-box; }
+  .tab { background: #2d2d30; border-bottom: 1px solid #3c3c3c; padding: 4px 10px; color: #aaa; font-size: 11px; border-radius: 8px 8px 0 0; }
+  .body { padding: 10px 12px; display: flex; flex-direction: column; gap: 9px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .col { display: flex; flex-direction: column; gap: 2px; }
+  .dim { color: #8a8a8a; } .y { color: #e5c07b; } .b { font-weight: 700; } .cyan { color: #56b6c2; } .green { color: #98c379; } .red { color: #e06c75; } .blue { color: #61afef; }
+  .btn { display: inline-block; border: 1px solid #555; border-radius: 4px; padding: 1px 8px; color: #ddd; background: #333; }
+  .btn.primary { background: #d9a400; border-color: #d9a400; color: #1e1e1e; font-weight: 700; padding: 4px 12px; font-size: 13px; }
+  .btn.dim { color: #777; border-color: #444; background: #2a2a2a; }
+  .tabs .on { color: #fff; } .tabs span { margin-right: 4px; }
+  .center { align-items: center; }
+  .term { background: #111; border: 1px solid #333; border-radius: 6px; padding: 8px 10px; color: #ccc; white-space: pre; }
+  .term .p { color: #e5c07b; } .term .c { color: #56b6c2; }
+  .toast { position: relative; margin: -4px 0 0 auto; background: #3a3a1a; border: 1px solid #8a7a2a; color: #ffe08a; border-radius: 4px; padding: 2px 8px; font-size: 11px; }
+  .json { background: #111; border: 1px solid #333; border-radius: 6px; padding: 8px 10px; white-space: pre; color: #9cdcfe; font-size: 11px; }
+  .arrow { color: #666; text-align: center; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="grid">
+
+<!-- 1 -->
+<div class="step">
+  <div class="num">1 <span>· You send a prompt. Claude starts thinking → the pane opens.</span></div>
+  <div class="term"><span class="p">❯</span> refactor the auth module and add tests
+<span class="dim">✻ Thinking…</span></div>
+  <div class="pane">
+    <div class="tab">🍌 Banana Sponsor Banana</div>
+    <div class="body">
+      <div class="col">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="170" height="50"><rect x="2" y="2" width="216" height="60" rx="12" fill="none" stroke="#e5c07b" stroke-width="3"/><text x="110" y="40" text-anchor="middle" font-family="Menlo, monospace" font-size="22" font-weight="700" fill="#e5c07b">BANANA SPONSOR</text></svg>
+        <span><span class="y b">Banana Sponsor</span><span class="dim"> · Click while Claude thinks. Earn LLM tokens.</span></span>
+      </div>
+      <div class="row"><span class="y b">🪙 0 coins</span><span class="dim">(void in —) · lifetime 0c / 0 clicks</span><span>Lv 0</span></div>
+      <div class="row"><span class="cyan">Claude is thinking… click!</span></div>
+      <div class="row tabs"><span class="on">[Click]</span><span class="dim">Bag</span><span class="dim">Shop</span><span class="dim">Top</span><span class="btn">Close</span></div>
+      <div class="col center" style="gap:6px">
+        <span class="y b">Banana Sponsor Banana</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="90" height="90"><path d="M30 22 C 18 72, 52 130, 118 142 C 134 145, 144 136, 138 126 C 92 124, 54 88, 48 30 C 46 18, 34 14, 30 22 Z" fill="#F7C727" stroke="#B8860B" stroke-width="4" stroke-linejoin="round"/><path d="M48 34 C 56 86, 90 120, 130 130" fill="none" stroke="#FFE98A" stroke-width="6" stroke-linecap="round" opacity="0.9"/><path d="M30 20 l-6 -10 l12 3 z" fill="#5B3A1A"/><path d="M136 132 l10 6 l-5 7 z" fill="#5B3A1A"/></svg>
+        <span class="btn primary">🍌 CLICK THE BANANA 🍌</span>
+        <span class="dim">0 clicks · +1 per click · 100 to Lv 1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="step">
+  <div class="num">2 <span>· You click while it thinks. Coins land, a banana drops, a toast shows.</span></div>
+  <div class="pane">
+    <div class="tab">🍌 Banana Sponsor Banana</div>
+    <div class="body">
+      <div class="toast">banana · 🟢 Green Banana dropped! (rare)</div>
+      <div class="row"><span class="y b">🪙 212 coins</span><span class="dim">(void in 7d) · lifetime 212c / 212 clicks</span><span>Lv 2</span></div>
+      <div class="row"><span class="cyan">Claude is thinking… click!</span></div>
+      <div class="row tabs"><span class="on">[Click]</span><span class="dim">Bag</span><span class="dim">Shop</span><span class="dim">Top</span><span class="btn">Close</span></div>
+      <div class="col center" style="gap:6px">
+        <span class="y b">Banana Sponsor Banana</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="90" height="90"><path d="M30 22 C 18 72, 52 130, 118 142 C 134 145, 144 136, 138 126 C 92 124, 54 88, 48 30 C 46 18, 34 14, 30 22 Z" fill="#F7C727" stroke="#B8860B" stroke-width="4" stroke-linejoin="round"/><path d="M48 34 C 56 86, 90 120, 130 130" fill="none" stroke="#FFE98A" stroke-width="6" stroke-linecap="round" opacity="0.9"/><path d="M30 20 l-6 -10 l12 3 z" fill="#5B3A1A"/><path d="M136 132 l10 6 l-5 7 z" fill="#5B3A1A"/></svg>
+        <span class="btn primary">🍌 CLICK THE BANANA 🍌</span>
+        <span class="dim">212 clicks · +3 per click · 88 to Lv 3</span>
+        <span class="green">🟢 Green Banana dropped! (rare)</span>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">answer lands → pane closes · clicks are reported to the server as one delta</div>
+  <div class="term"><span class="dim">● Done. Refactored auth into 3 modules, 14 tests pass.</span>
+<span class="p">❯</span> _</div>
+</div>
+
+<!-- 3 -->
+<div class="step">
+  <div class="num">3 <span>· Over days the Bag fills. Sell bananas for coins; both are void after 7 days.</span></div>
+  <div class="pane">
+    <div class="tab">🍌 Banana Sponsor Banana</div>
+    <div class="body">
+      <div class="row"><span class="y b">🪙 4 810 coins</span><span class="dim">(void in 5d) · lifetime 5 230c / 1 640 clicks</span><span>Lv 16</span></div>
+      <div class="row"><span class="dim">Claude is idle</span></div>
+      <div class="row tabs"><span class="dim">Click</span><span class="on">[Bag]</span><span class="dim">Shop</span><span class="dim">Top</span><span class="btn">Close</span></div>
+      <div class="col" style="gap:5px">
+        <span class="dim">Each banana sells for coins; coins buy LLM tokens in the Shop. Bag worth: 420 coins. Bananas are void 7 days after they drop.</span>
+        <div class="col"><div class="row"><span class="y b">legendary ×0</span></div><span class="dim">&nbsp;&nbsp;⭐ Golden Banana = 1000c, 0.05% per click</span></div>
+        <div class="col"><div class="row"><span class="b" style="color:#c678dd">epic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;×1</span><span>worth 150c</span><span class="btn">Sell all for 150c</span></div><span class="dim">&nbsp;&nbsp;🔵 Blue Banana = 150c, 0.4% per click</span></div>
+        <div class="col"><div class="row"><span class="blue b">rare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;×7</span><span>worth 175c</span><span class="btn">Sell all for 175c</span></div><span class="dim">&nbsp;&nbsp;🟢 Green Banana = 25c, 2% per click</span></div>
+        <div class="col"><div class="row"><span class="green b">common&nbsp;&nbsp;&nbsp;×19</span><span>worth 95c</span><span class="btn">Sell all for 95c</span></div><span class="dim">&nbsp;&nbsp;🍌 Yellow Banana = 5c, 10% per click</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="step">
+  <div class="num">4 <span>· Shop before linking: register on the gateway, then link your login.</span></div>
+  <div class="pane">
+    <div class="tab">🍌 Banana Sponsor Banana</div>
+    <div class="body">
+      <div class="row"><span class="y b">🪙 5 230 coins</span><span class="dim">(void in 5d) · lifetime 5 650c / 1 640 clicks</span><span>Lv 16</span></div>
+      <div class="row tabs"><span class="dim">Click</span><span class="dim">Bag</span><span class="on">[Shop]</span><span class="dim">Top</span><span class="btn">Close</span></div>
+      <div class="col" style="gap:5px">
+        <span><span class="b">Rate: $1 = 5000 coins</span><span class="dim">  (50 000 coins earned by everyone in the last 7 days ÷ 10 units of $10)</span></span>
+        <span class="dim">You have 5 230 coins · oldest void in 5d</span>
+        <span class="y">No gateway login linked. Register, then run /banana link &lt;your username&gt; here.</span>
+        <a class="blue" style="text-decoration:underline" href="#">Register on Banana Sponsor gateway</a>
+        <div class="col" style="margin-top:6px">
+          <div class="row"><span class="y b">$1 of LLM tokens</span><span>= 5000 coins</span><span class="btn dim">Redeem $1 for 5000c</span></div>
+          <span class="dim">$1 of LLM API credit, topped up on your gateway account · by Banana Sponsor · 10 × $1 left · link your gateway login first</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="term"><span class="p">❯</span> <span class="c">/banana link alice</span>
+<span class="dim">Banana: tokens will be paid out to your gateway login "alice".</span></div>
+</div>
+
+<!-- 5 -->
+<div class="step">
+  <div class="num">5 <span>· Redeem. The server tops up "alice" on New API and shows the receipt.</span></div>
+  <div class="pane">
+    <div class="tab">🍌 Banana Sponsor Banana</div>
+    <div class="body">
+      <div class="toast">banana · 🎁 LLM tokens: Topped up $1 (500000 quota) to alice on the gateway</div>
+      <div class="row"><span class="y b">🪙 230 coins</span><span class="dim">(void in 5d) · lifetime 5 650c / 1 640 clicks</span><span>Lv 16</span></div>
+      <div class="row tabs"><span class="dim">Click</span><span class="dim">Bag</span><span class="on">[Shop]</span><span class="dim">Top</span><span class="btn">Close</span></div>
+      <div class="col" style="gap:5px">
+        <span><span class="b">Rate: $1 = 5000 coins</span><span class="dim">  (50 000 coins earned by everyone in the last 7 days ÷ 10 units of $10)</span></span>
+        <span class="dim">You have 230 coins · oldest void in 5d</span>
+        <span class="dim">Tokens are paid out to your Banana Sponsor gateway login "alice" (change: /banana link &lt;username&gt;)</span>
+        <div class="col" style="margin-top:6px">
+          <div class="row"><span class="y b">$1 of LLM tokens</span><span>= 5000 coins</span><span class="btn dim">Redeem $1 for 5000c</span></div>
+          <span class="dim">$1 of LLM API credit, topped up on your gateway account · by Banana Sponsor · 9 × $1 left · need 4770 more coins</span>
+        </div>
+        <div class="row" style="margin-top:6px"><span class="green">🎁 LLM tokens: Topped up $1 (500000 quota) to alice on the gateway</span><span class="btn">Copy</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow">New API → alice's balance: $0.20 → $1.20 · she uses it through the gateway like any API key</div>
+</div>
+
+<!-- 6 -->
+<div class="step">
+  <div class="num">6 <span>· You, the admin: who played, who got paid, and the rate.</span></div>
+  <div class="term"><span class="p">$</span> curl $S/stats -H "x-admin-token: …"</div>
+  <div class="json">{
+  "installs": 143,          ← downloaded & opened
+  "sessions": 1 912,
+  "installsActive7d": 97,
+  "playersWhoClicked": 88,  ← actually played
+  "playersLinked": 41,
+  "globalClicks": 184 320,
+  "payoutsPaid": 9,
+  "payoutsFailed": 1,
+  "byVersion": [{"version":"0.1.0","installs":143}],
+  "bySurface":  [{"surface":"desktop","installs":121},
+                 {"surface":"terminal","installs":22}],
+  "rate": {"coinsPerUsd": 5000, "windowCoins": 50000,
+           "budgetUnits": 10, "windowHours": 168}
+}</div>
+  <div class="term"><span class="p">$</span> curl $S/claims -H "x-admin-token: …"
+<span class="green">Alice  alice  paid    Topped up $1 (500000 quota) to alice</span>
+<span class="green">Bob    bob    paid    Topped up $1 (500000 quota) to bob</span>
+<span class="red">Carl   nobody failed  no "nobody" on the gateway: register first</span></div>
+  <div class="arrow">Top tab in the pane shows the same leaderboard: lifetime coins, never expiring</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "banana",
+  "version": "0.1.0",
+  "description": "Banana clicker that opens while Claude thinks: earn Banana Coins, find rare bananas, redeem sponsor gifts.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "contentUrl": {
+      "type": "string",
+      "title": "Content URL",
+      "description": "URL of the hosted content.json (sponsor banner, gifts, special bananas, minimum version). Empty = bundled content, no update gate.",
+      "default": ""
+    },
+    "serverUrl": {
+      "type": "string",
+      "title": "Server URL",
+      "description": "Base URL of the banana Worker (leaderboard, real stock, one-time codes). Empty = single-player static mode.",
+      "default": ""
+    }
+  }
+}
