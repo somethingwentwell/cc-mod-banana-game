@@ -125,7 +125,11 @@ cp .env.example .env            # set ADMIN_TOKEN (any long random string)
 docker compose up -d
 ```
 
-1. Open `http://<vm>:3000`, log in to New API as `root` (default password `123456`, change it), create the admin's **System Access Token** under Settings → Personal, paste it into `.env` as `GATEWAY_TOKEN`, then `docker compose up -d` again.
+1. Open `http://<vm>:3000/setup` once and create the root admin (New API has no default password). Then wire the banana server to it in one go:
+   ```bash
+   ./bootstrap-gateway.sh root '<root password>'
+   ```
+   It logs in, passes New API's security verification, creates an access token named `banana-server`, writes it to `.env` as `GATEWAY_TOKEN`, restarts the banana container and uploads `../content.json`. (Or do it by hand: Settings → Personal → Access tokens, paste it into `.env`, `docker compose up -d`.)
 2. Upload the content so the server knows the economy and the gift:
    ```bash
    curl -X PUT http://<vm>:8787/content -H "x-admin-token: $ADMIN_TOKEN" -H "content-type: application/json" --data-binary @content.json

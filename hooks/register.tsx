@@ -205,9 +205,12 @@ export const register: Register = (on, options) => {
     if (v === 'click') {
       body = (
         <Box flexDirection="column" alignItems="center" gap={1}>
-          {bananaArt($, e)}
+          <Text color={c.sponsor.color} bold>
+            {c.banana.name}
+          </Text>
+          {bananaArt($, e, c)}
           <Button key="banana" hotkey="1" variant="primary" autoFocus onPress={() => void pressBanana($)}>
-            🍌 CLICK THE BANANA 🍌
+            {c.banana.buttonLabel ?? '🍌 CLICK THE BANANA 🍌'}
           </Button>
           <Text dimColor>{`${s.clicks} clicks · +${coinsPerClick(s.level)} per click · ${clicksToNextLevel(s.clicks)} to Lv ${s.level + 1}`}</Text>
           {last ? <Text color="green">{last}</Text> : null}
@@ -265,7 +268,7 @@ export const register: Register = (on, options) => {
               {c.gateway?.url ? <Link href={c.gateway.url} label={`Register on ${c.gateway.name}`} /> : null}
             </Box>
           )}
-          {c.gifts.map(gift => {
+          {c.gifts.map((gift, i) => {
             const left = (opts.serverUrl ? stock[gift.id] : undefined) ?? stockLeft(s, gift)
             const price = priceOf(gift, r.coinsPerUsd)
             const check = canRedeem(s, gift, price, !!opts.serverUrl)
@@ -283,7 +286,7 @@ export const register: Register = (on, options) => {
                 <Box gap={1}>
                   <Text bold color={c.sponsor.color}>{`${value} of ${gift.name}`}</Text>
                   <Text>{`= ${price} coins`}</Text>
-                  <Button key={`redeem-${gift.id}`} dimColor={why !== 'ok'} onPress={() => void redeemGift($, opts, gift.id)}>
+                  <Button key={`redeem-${gift.id}`} hotkey={i < 9 ? String(i + 1) : undefined} dimColor={why !== 'ok'} onPress={() => void redeemGift($, opts, gift.id)}>
                     {why === 'no-stock' ? 'Sold out' : `Redeem ${value} for ${price}c`}
                   </Button>
                 </Box>
@@ -328,17 +331,26 @@ export const register: Register = (on, options) => {
       <Box flexDirection="column" gap={1} paddingX={1}>
         <Box flexDirection="column">
           {sponsorArt($, e, c)}
-          <Text dimColor>{`${c.sponsor.name} · ${c.sponsor.tagline}`}</Text>
-        </Box>
-        <Box gap={2}>
-          <Box key="coins">
-            <Text bold color="yellow">{`🪙 ${s.coins} coins`}</Text>
-          </Box>
-          <Text dimColor>{`(void in ${expiry ? days(expiry - nowMs) : '—'}) · lifetime ${s.lifetime.coins}c / ${s.lifetime.clicks} clicks`}</Text>
-          <Text>{`Lv ${s.level}`}</Text>
-          <Text color={thinking ? 'cyan' : undefined} dimColor={!thinking}>
-            {thinking ? 'Claude is thinking… click!' : 'Claude is idle'}
+          <Text>
+            <Text bold color={c.sponsor.color}>{c.sponsor.name}</Text>
+            <Text dimColor>{` · ${c.sponsor.tagline}`}</Text>
           </Text>
+          {(c.sponsor.lines ?? []).map(line => (
+            <Text dimColor>{line}</Text>
+          ))}
+          {c.sponsor.url ? <Link href={c.sponsor.url} label={c.sponsor.urlLabel ?? c.sponsor.url} /> : null}
+        </Box>
+        <Box flexDirection="column">
+          <Box gap={2}>
+            <Box key="coins">
+              <Text bold color="yellow">{`🪙 ${s.coins} coins`}</Text>
+            </Box>
+            <Text>{`Lv ${s.level}`}</Text>
+            <Text color={thinking ? 'cyan' : undefined} dimColor={!thinking}>
+              {thinking ? 'Claude is thinking… click!' : 'Claude is idle'}
+            </Text>
+          </Box>
+          <Text dimColor>{`void in ${expiry ? days(expiry - nowMs) : '—'} · lifetime ${s.lifetime.coins} coins, ${s.lifetime.clicks} clicks`}</Text>
         </Box>
         <Box gap={1}>
           {tab('click', 'Click', 'c')}
@@ -360,26 +372,26 @@ export const register: Register = (on, options) => {
 // ---- pane ------------------------------------------------------------------
 
 /** The banana: vector on the surfaces that draw Svg, ASCII on the terminal. */
-function bananaArt($: EngineInterface, e: RenderInput<'Pane'>) {
+function bananaArt($: EngineInterface, e: RenderInput<'Pane'>, c: Content) {
   if (e.surface === 'terminal') {
     const { Box, Text } = $.ui.resolve(e)
     return (
       <Box flexDirection="column">
-        {BANANA_ART.map(line => (
+        {(c.banana.art ?? BANANA_ART).map(line => (
           <Text color="yellow">{line}</Text>
         ))}
       </Box>
     )
   }
   const { Svg } = $.ui.resolve(e)
-  return <Svg source={BANANA_SVG} alt="a yellow banana" width={120} height={120} />
+  return <Svg source={c.banana.svg ?? BANANA_SVG} alt={c.banana.name} width={140} height={140} />
 }
 
 /** The sponsor's logo when the content carries SVG and the surface draws it; else the ASCII banner. */
 function sponsorArt($: EngineInterface, e: RenderInput<'Pane'>, c: Content) {
   if (e.surface !== 'terminal' && c.sponsor.logo) {
     const { Svg } = $.ui.resolve(e)
-    return <Svg source={c.sponsor.logo} alt={`${c.sponsor.name} logo`} height={64} />
+    return <Svg source={c.sponsor.logo} alt={`${c.sponsor.name} logo`} height={c.sponsor.logoHeight ?? 64} />
   }
   const { Box, Text } = $.ui.resolve(e)
   return (
@@ -392,7 +404,9 @@ function sponsorArt($: EngineInterface, e: RenderInput<'Pane'>, c: Content) {
 }
 
 async function openPane($: EngineInterface, asked: boolean) {
-  const opened = await $.ui.open(asked ? { id: PANE, title: TITLE, focus: true } : { id: PANE, title: TITLE })
+  const c = await read($, content)
+  const title = c.banana.name === 'Banana' ? TITLE : `🍌 ${c.banana.name}`
+  const opened = await $.ui.open(asked ? { id: PANE, title, focus: true } : { id: PANE, title })
   if (!opened.isPlaced && asked) $.ui.toast('Banana: widen the terminal or go fullscreen to see the pane')
 }
 
