@@ -18,8 +18,6 @@ export const DEFAULT_CONTENT: Content = {
       ' \\_______/ ',
     ],
     lines: ['Every click earns coins; coins buy $1 of LLM tokens.', 'Coins and bananas are void after 7 days. Lifetime totals stay.'],
-    url: 'https://example.com/banana-sponsor',
-    urlLabel: 'About the sponsor',
   },
   banana: {
     name: 'Banana Sponsor Banana',
@@ -47,8 +45,8 @@ export const DEFAULT_CONTENT: Content = {
   economy: DEFAULT_ECONOMY,
   gateway: {
     name: 'Banana Sponsor gateway',
-    url: 'https://example.com/gateway',
-    hint: 'Register, then run /banana link <your username> here.',
+    url: 'http://4.194.42.84:3000/register',
+    hint: 'Register there, then run /banana link <your username> here.',
   },
   notes: 'Edit content.json and bump minVersion when the game needs a newer mod.',
 }

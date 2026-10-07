@@ -83,7 +83,9 @@ const seq = (...values: number[]) => {
   return () => values[i++] ?? 0.99
 }
 
-const CONTENT_OPTS = { options: { contentUrl: 'https://example.test/content.json' } }
+/** Tests get the manifest defaults (the live server) unless they say otherwise. */
+const OFFLINE = { options: { serverUrl: '', contentUrl: '' } }
+const CONTENT_OPTS = { options: { contentUrl: 'https://example.test/content.json', serverUrl: '' } }
 
 const okJson = (data: unknown) => ({ value: { status: 200, ok: true, headers: {}, text: JSON.stringify(data) } })
 
@@ -208,7 +210,7 @@ test('parseContent refuses a document without the required fields and fills the 
 
 // ---- the pane -------------------------------------------------------------------
 
-test('clicking the banana earns coins on every surface', async ($, on) => {
+test('clicking the banana earns coins on every surface', OFFLINE, async ($, on) => {
   stubs(on)
   for (const surface of SURFACES) {
     const ui = await $.ui.mount({ plugin: 'banana', surface, component: 'Pane', props: PANE_PROPS, requestId: 'banana' })
@@ -222,7 +224,7 @@ test('clicking the banana earns coins on every surface', async ($, on) => {
   }
 })
 
-test('tabs switch the body and the shop lists the gifts', async ($, on) => {
+test('tabs switch the body and the shop lists the gifts', OFFLINE, async ($, on) => {
   stubs(on)
   const ui = await $.ui.mount({ plugin: 'banana', surface: 'terminal', component: 'Pane', props: PANE_PROPS, requestId: 'banana' })
   await ui.press({ key: 'tab-shop' })
@@ -259,7 +261,7 @@ test('a shared-code gift from hosted content can be redeemed offline and the cla
   await ui.unmount()
 })
 
-test('the pane opens when a turn starts and closes when it completes', async ($, on) => {
+test('the pane opens when a turn starts and closes when it completes', OFFLINE, async ($, on) => {
   const log = stubs(on)
   await $.turn.start({ text: 'hi', turnId: 't1' })
   expect(log.opened).toContain('banana')
@@ -267,7 +269,7 @@ test('the pane opens when a turn starts and closes when it completes', async ($,
   expect(log.closed).toContain('banana')
 })
 
-test('a subagent finishing does not close the pane', async ($, on) => {
+test('a subagent finishing does not close the pane', OFFLINE, async ($, on) => {
   const log = stubs(on)
   await $.turn.start({ text: 'hi', turnId: 't1' })
   await $.turn.complete({ answer: 'sub', durationMs: 1, isAborted: false, turnId: 't2', agentId: 'a1', reason: 'answer' })
@@ -309,7 +311,7 @@ test('an unreachable content URL falls back to the cached copy', CONTENT_OPTS, a
   await ui.unmount()
 })
 
-test('a gateway gift without a linked login tells the player to register', { options: { serverUrl: 'https://banana.example.test' } }, async ($, on) => {
+test('a gateway gift without a linked login tells the player to register', { options: { serverUrl: 'https://banana.example.test', contentUrl: '' } }, async ($, on) => {
   stubs(on, { save: earn(emptySave(), 9000, '2026-10-06T00:00:00.000Z'), playerId: 'p-2' })
   on('http.fetch', () => okJson({ ok: true }))
   await $.session.start(SESSION)
@@ -320,11 +322,45 @@ test('a gateway gift without a linked login tells the player to register', { opt
   await ui.unmount()
 })
 
+test('an http registration link is drawn as text, not refused', CONTENT_OPTS, async ($, on) => {
+  stubs(on)
+  const hosted: Content = { ...DEFAULT_CONTENT, gateway: { name: 'Test gateway', url: 'http://4.194.42.84:3000/register' } }
+  on('http.fetch', () => okJson(hosted))
+  await $.session.start(SESSION)
+  for (const surface of SURFACES) {
+    const ui = await $.ui.mount({ plugin: 'banana', surface, component: 'Pane', props: PANE_PROPS, requestId: 'banana' })
+    await ui.press({ key: 'tab-shop' })
+    expect(await ui.find({ type: 'Text', text: 'http://4.194.42.84:3000/register' })).toBeDefined()
+    const links = await ui.findAll({ type: 'Link' })
+    expect(links.some(l => String(l.props.href ?? '').startsWith('http://'))).toBe(false)
+    await ui.unmount()
+  }
+})
+
+test('with no settings, a new player talks to the sponsor server', async ($, on) => {
+  stubs(on)
+  const urls: string[] = []
+  on('http.fetch', (_, e) => {
+    urls.push(e.url)
+    if (e.url.endsWith('/content')) return okJson(DEFAULT_CONTENT)
+    if (e.url.endsWith('/rate')) return okJson({ coinsPerUsd: 777, windowCoins: 7770, budgetUnits: 10 })
+    return okJson({ ok: true, '\u006clm-tokens': 10 })
+  })
+  await $.session.start(SESSION)
+  const ui = await $.ui.mount({ plugin: 'banana', surface: 'terminal', component: 'Pane', props: PANE_PROPS, requestId: 'banana' })
+  await ui.press({ key: 'tab-shop' })
+  expect(urls, JSON.stringify(urls)).toContain('http://4.194.42.84:8787/hello')
+  expect(urls, JSON.stringify(urls)).toContain('http://4.194.42.84:8787/content')
+  expect(await ui.find({ type: 'Text', text: /Rate: \$1 = 777 coins/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: 'http://4.194.42.84:3000/register' })).toBeDefined()
+  await ui.unmount()
+})
+
 // ---- the server -------------------------------------------------------------------
 
 test(
   'with a server, clicks are reported as deltas, the rate comes back, and redeem takes the server code',
-  { options: { serverUrl: 'https://banana.example.test' } },
+  { options: { serverUrl: 'https://banana.example.test', contentUrl: '' } },
   async ($, on) => {
     const rich: Save = earn(emptySave(), 6000, '2026-10-06T00:00:00.000Z')
     const log = stubs(on, { save: rich, playerId: 'p-1', name: 'Tester', gateway: 'tester@gw' })

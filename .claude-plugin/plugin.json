@@ -7,14 +7,14 @@
     "contentUrl": {
       "type": "string",
       "title": "Content URL",
-      "description": "URL of the hosted content.json (sponsor banner, gifts, special bananas, minimum version). Empty = bundled content, no update gate.",
-      "default": ""
+      "description": "URL of the content document (sponsor, bananas, gifts, minimum version). Defaults to the sponsor server; empty = bundled content.",
+      "default": "http://4.194.42.84:8787/content"
     },
     "serverUrl": {
       "type": "string",
       "title": "Server URL",
-      "description": "Base URL of the banana Worker (leaderboard, real stock, one-time codes). Empty = single-player static mode.",
-      "default": ""
+      "description": "Base URL of the banana server (leaderboard, live rate, token payouts). Defaults to the sponsor server; empty = single-player.",
+      "default": "http://4.194.42.84:8787"
     }
   }
 }

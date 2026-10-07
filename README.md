@@ -12,7 +12,7 @@ Banana is a mod for Claude Code. Every time Claude starts thinking, a banana pop
 
 - **Waiting pays.** Every turn Claude spends thinking is a few hundred clicks you can cash in.
 - **Rare drops.** Each click can drop a banana: 🍌 common, 🟢 rare, 🔵 epic, or the ⭐ Golden Banana at 1 in 2,000.
-- **Real rewards.** Coins buy **$1 of LLM tokens**, topped up straight onto your account on the sponsor's gateway.
+- **Real rewards.** Coins buy **$1 of LLM tokens**, topped up straight onto your account on the sponsor's gateway. No setup: the mod is already connected.
 - **A live leaderboard.** See how many bananas everyone has clicked this week, and where you rank.
 - **It stays out of the way.** The pane opens when Claude thinks and closes when Claude answers. Nothing touches your code or your conversation.
 
@@ -82,24 +82,15 @@ Type `/banana` to open the pane right away, or just ask Claude something: the ba
 - **Glory is forever.** Your lifetime clicks and coins never expire, and the leaderboard ranks lifetime coins.
 - **Saved on your machine.** Progress lives in Claude Code's plugin store and survives restarts.
 
-## Join the live economy
+## Get your tokens
 
-Out of the box the game runs single-player: you can click, collect and see prices, but redeeming tokens needs the sponsor's server. Connect it once in `~/.claude/settings.json` with the two URLs the sponsor publishes:
+The mod connects to the sponsor's server on its own; there is nothing to configure. To be paid, you need an account on the sponsor's LLM gateway:
 
-```json
-{
-  "pluginConfigs": {
-    "banana": {
-      "options": {
-        "serverUrl": "https://banana.example.com",
-        "contentUrl": "https://banana.example.com/content"
-      }
-    }
-  }
-}
-```
+1. Register at **http://4.194.42.84:3000/register** (the Shop shows the same link).
+2. In Claude Code, type `/banana link <your username>`.
+3. Redeem in the Shop. The $1 of tokens lands on that account, ready to use through the gateway like any API key.
 
-The same two fields appear under the plugin's settings in `/config`.
+Prefer to play offline? Set **Server URL** and **Content URL** to empty under the plugin's settings in `/config`.
 
 ## Use it in the Claude desktop app
 
@@ -122,7 +113,7 @@ When the sponsor ships something that needs a newer mod (a new kind of banana, s
 
 ## What it sends
 
-Only game data, and only when a server is set: a random player id made on your machine, click and coin counts, your leaderboard name and gateway login if you set them, the mod version, and whether you play in the terminal or the desktop app. Never your prompts, code, files or conversation.
+Only game data, to the sponsor's server: a random player id made on your machine, click and coin counts, your leaderboard name and gateway login if you set them, the mod version, and whether you play in the terminal or the desktop app. Never your prompts, code, files or conversation. Empty the **Server URL** setting and nothing is sent.
 
 ---
 

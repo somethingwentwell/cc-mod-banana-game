@@ -82,6 +82,24 @@ const now = () => new Date().toISOString()
 const pct = (chance: number) => `${Math.round(chance * 10000) / 100}%`
 const bagWorth = (s: Save, c: Content) => s.inventory.reduce((sum, d) => sum + sellValueOf(c, d.kindId), 0)
 const reason = (err: unknown) => (err instanceof Error ? err.message : String(err))
+/**
+ * A `Link` takes only https (or http://localhost) and refuses the whole tree
+ * otherwise, so any other address from the content is shown as plain text.
+ */
+const isLinkable = (href: string) => /^https:\/\//i.test(href) || /^http:\/\/localhost(:\d+)?(\/|$)/i.test(href)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function linkOrText(Link: any, Text: any, href: string, label: string) {
+  return isLinkable(href) ? (
+    <Link href={href} label={label} />
+  ) : (
+    <Text>
+      <Text>{`${label} `}</Text>
+      <Text underline color="cyan">{href}</Text>
+    </Text>
+  )
+}
+
 const days = (ms: number) => {
   const d = ms / 86400000
   return d >= 1 ? `${Math.floor(d)}d` : `${Math.max(1, Math.floor(ms / 3600000))}h`
@@ -265,7 +283,7 @@ export const register: Register = (on, options) => {
           ) : (
             <Box flexDirection="column">
               <Text color="yellow">{`No gateway login linked. ${c.gateway?.hint ?? 'Register on the sponsor gateway, then run /banana link <your username>.'}`}</Text>
-              {c.gateway?.url ? <Link href={c.gateway.url} label={`Register on ${c.gateway.name}`} /> : null}
+              {c.gateway?.url ? linkOrText(Link, Text, c.gateway.url, `Register on ${c.gateway.name}`) : null}
             </Box>
           )}
           {c.gifts.map((gift, i) => {
@@ -338,7 +356,7 @@ export const register: Register = (on, options) => {
           {(c.sponsor.lines ?? []).map(line => (
             <Text dimColor>{line}</Text>
           ))}
-          {c.sponsor.url ? <Link href={c.sponsor.url} label={c.sponsor.urlLabel ?? c.sponsor.url} /> : null}
+          {c.sponsor.url ? linkOrText(Link, Text, c.sponsor.url, c.sponsor.urlLabel ?? c.sponsor.url) : null}
         </Box>
         <Box flexDirection="column">
           <Box gap={2}>
