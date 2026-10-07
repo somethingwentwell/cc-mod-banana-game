@@ -86,9 +86,9 @@ Type `/banana` to open the pane right away, or just ask Claude something: the ba
 
 The mod connects to the sponsor's server on its own; there is nothing to configure. To be paid, you need an account on the sponsor's LLM gateway:
 
-1. Register at **http://4.194.42.84:3000/register** (the Shop shows the same link).
+1. Register at **[banana.jevable.ai/register](https://banana.jevable.ai/register)** (the Shop shows the same link).
 2. In Claude Code, type `/banana link <your username>`.
-3. Redeem in the Shop. The $1 of tokens lands on that account, ready to use through the gateway like any API key.
+3. Redeem in the Shop. The $1 of tokens lands on that account. Create an API key there and use `https://banana.jevable.ai/v1` as the base URL in any OpenAI-compatible tool.
 
 Prefer to play offline? Set **Server URL** and **Content URL** to empty under the plugin's settings in `/config`.
 

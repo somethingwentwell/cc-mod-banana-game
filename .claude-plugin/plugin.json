@@ -8,13 +8,13 @@
       "type": "string",
       "title": "Content URL",
       "description": "URL of the content document (sponsor, bananas, gifts, minimum version). Defaults to the sponsor server; empty = bundled content.",
-      "default": "http://4.194.42.84:8787/content"
+      "default": "https://banana.jevable.ai/game/content"
     },
     "serverUrl": {
       "type": "string",
       "title": "Server URL",
       "description": "Base URL of the banana server (leaderboard, live rate, token payouts). Defaults to the sponsor server; empty = single-player.",
-      "default": "http://4.194.42.84:8787"
+      "default": "https://banana.jevable.ai/game"
     }
   }
 }

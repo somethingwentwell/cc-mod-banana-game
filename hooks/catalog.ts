@@ -45,7 +45,7 @@ export const DEFAULT_CONTENT: Content = {
   economy: DEFAULT_ECONOMY,
   gateway: {
     name: 'Banana Sponsor gateway',
-    url: 'http://4.194.42.84:3000/register',
+    url: 'https://banana.jevable.ai/register',
     hint: 'Register there, then run /banana link <your username> here.',
   },
   notes: 'Edit content.json and bump minVersion when the game needs a newer mod.',
