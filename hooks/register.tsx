@@ -207,7 +207,7 @@ export const register: Register = (on, options) => {
               Close
             </Button>
           </Box>
-          <Text dimColor>{`Update now runs git pull in ${$.plugin.root}. Not a git checkout? Replace that folder with the new release and restart.`}</Text>
+          <Text dimColor>{`Update now runs \`${UPDATE_HINT}\` for you (or git pull, if you play from a clone). Then restart Claude Code.`}</Text>
           {last ? <Text color="yellow">{last}</Text> : null}
         </Box>
       )
@@ -628,21 +628,37 @@ async function refreshContentIfStale($: EngineInterface, opts: Options) {
   if (u.status !== 'checking' && age > CONTENT_TTL_MS) await refreshContent($, opts)
 }
 
+/** How players install it: `/plugin install banana@banana`. */
+const PLUGIN_ID = 'banana@banana'
+const UPDATE_HINT = `claude plugin update ${PLUGIN_ID}`
+
+/**
+ * A marketplace install updates through the plugin CLI (then a restart); a
+ * clone run with --plugin-dir updates with git pull and reloads by itself.
+ */
 async function runUpdate($: EngineInterface) {
   const root = $.plugin.root
   const isGit = await $.fs.exists(`${root}/.git`).catch(() => false)
-  if (!isGit) {
-    await update($, lastEvent, () => 'This copy is not a git checkout: replace the mod folder with the new release, then restart Claude Code.')
-    return
-  }
-  await update($, lastEvent, () => 'Running git pull…')
+  const steps: string[][] = isGit
+    ? [['git', '-C', root, 'pull', '--ff-only']]
+    : [
+        ['claude', 'plugin', 'marketplace', 'update', 'banana'],
+        ['claude', 'plugin', 'update', PLUGIN_ID],
+      ]
+  await update($, lastEvent, () => `Running ${steps.map(s => s.slice(0, 3).join(' ')).join(', then ')}…`)
   try {
-    const r = await $.process.run(['git', '-C', root, 'pull', '--ff-only'], { timeoutMs: 60000 })
-    if (r.exitCode !== 0) throw new Error(r.stderr.trim() || `git exited ${r.exitCode}`)
-    await update($, lastEvent, () => 'Updated. The mod reloads by itself; if this screen stays, restart Claude Code.')
+    for (const argv of steps) {
+      const r = await $.process.run(argv, { timeoutMs: 120000 })
+      if (r.exitCode !== 0) throw new Error(r.stderr.trim() || r.stdout.trim() || `${argv[0]} exited ${r.exitCode}`)
+    }
+    const done = isGit
+      ? 'Updated. The mod reloads by itself; if this screen stays, restart Claude Code.'
+      : 'Updated. Restart Claude Code to play the new version.'
+    await update($, lastEvent, () => done)
     $.ui.toast('Banana updated')
   } catch (err) {
-    await update($, lastEvent, () => `Update failed: ${reason(err)}`)
+    const fallback = isGit ? `git -C ${root} pull` : UPDATE_HINT
+    await update($, lastEvent, () => `Update failed: ${reason(err)}. Run \`${fallback}\` in a terminal, then restart Claude Code.`)
     $.ui.toast(`Banana update failed: ${reason(err)}`)
   }
 }

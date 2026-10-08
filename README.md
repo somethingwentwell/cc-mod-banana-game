@@ -16,44 +16,22 @@ Banana is a mod for Claude Code. Every time Claude starts thinking, a banana pop
 - **A live leaderboard.** See how many bananas everyone has clicked this week, and where you rank.
 - **It stays out of the way.** The pane opens when Claude thinks and closes when Claude answers. Nothing touches your code or your conversation.
 
-## Install and play
+## Get started
 
-You need [Claude Code](https://claude.com/claude-code) and git.
+In Claude Code:
 
-**1. Clone the mod**
-
-```bash
-git clone https://github.com/somethingwentwell/cc-mod-banana-game.git
+```text
+/plugin marketplace add somethingwentwell/cc-mod-banana-game
+/plugin install banana@banana
 ```
 
-**2. Find its full path**
+Restart Claude Code. If the install mentions options that are not set yet, skip it: the defaults already connect you to the sponsor's server.
 
-```bash
-cd cc-mod-banana-game
-pwd
-```
-
-`pwd` prints the folder's full path, for example `/Users/you/cc-mod-banana-game`. On Windows PowerShell the same command works, or use `(Get-Location).Path`.
-
-**3. Start Claude Code with the mod**
-
-```bash
-claude --plugin-dir /path/to/cc-mod-banana-game
-```
-
-Replace `/path/to/cc-mod-banana-game` with the path `pwd` printed. If you are still inside the folder, this does the same thing:
-
-```bash
-claude --plugin-dir "$(pwd)"
-```
-
-The first time you start Claude Code in a new folder it asks whether you trust it; choose **Yes, I trust this folder**.
-
-**4. Play**
-
-Type `/banana` to open the pane right away, or just ask Claude something: the banana opens by itself while Claude thinks. Press `1` (or click the button) to click the banana.
+Then type `/banana` to open the pane, or just ask Claude something: the banana opens by itself while Claude thinks. Press `1` (or click the button) to click the banana.
 
 > The pane opens on its own when your terminal is at least 144 columns wide. On a narrower terminal, `/banana` always opens it.
+
+You need a recent [Claude Code](https://claude.com/claude-code) (tested on 2.1.291).
 
 ## How to play
 
@@ -92,31 +70,28 @@ The mod connects to the sponsor's server on its own; there is nothing to configu
 
 Prefer to play offline? Set **Server URL** and **Content URL** to empty under the plugin's settings in `/config`.
 
-## Use it in the Claude desktop app
-
-Where you can't pass `--plugin-dir`, list the folder in the `env` block of `~/.claude/settings.json` and restart the app:
-
-```json
-{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "/path/to/cc-mod-banana-game" } }
-```
-
-On the desktop the banana and the sponsor's logo are drawn as vector art.
-
 ## Updating
 
 ```bash
-cd /path/to/cc-mod-banana-game
-git pull
+claude plugin update banana@banana
 ```
 
-When the sponsor ships something that needs a newer mod (a new kind of banana, say), the pane shows **Update required** and an **Update now** button that runs the same `git pull` for you.
+Then restart Claude Code. When the sponsor ships something that needs a newer mod (a new kind of banana, say), the pane shows **Update required** and an **Update now** button that runs the same update for you.
 
 ## What it sends
 
 Only game data, to the sponsor's server: a random player id made on your machine, click and coin counts, your leaderboard name and gateway login if you set them, the mod version, and whether you play in the terminal or the desktop app. Never your prompts, code, files or conversation. Empty the **Server URL** setting and nothing is sent.
 
+## Run from source
+
+```bash
+git clone https://github.com/somethingwentwell/cc-mod-banana-game.git
+cd cc-mod-banana-game
+claude --plugin-dir "$(pwd)"
+```
+
+The mod hot-reloads as you edit it. `claude plugin validate .` checks the manifests and hooks, and `claude plugin test .` runs the tests. Where you can't pass `--plugin-dir`, such as the Claude desktop app, list the folder under `CLAUDE_CODE_PLUGIN_DIRS` in the `env` block of `~/.claude/settings.json`.
+
 ---
 
 The sponsor side (the token gateway, prices and payouts) lives in its own repo, `cc-mod-banana-server`.
-
-<sub>For mod developers: `claude plugin validate .` checks the manifest and hooks, `claude plugin test .` runs the tests.</sub>

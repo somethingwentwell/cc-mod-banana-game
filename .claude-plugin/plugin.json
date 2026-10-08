@@ -1,7 +1,20 @@
 {
   "name": "banana",
+  "displayName": "Banana — click while Claude thinks",
   "version": "0.1.0",
-  "description": "Banana clicker that opens while Claude thinks: earn Banana Coins, find rare bananas, redeem sponsor gifts.",
+  "description": "A clicker pane that opens while Claude thinks: earn coins, catch rare bananas, climb the leaderboard, and redeem $1 of LLM tokens from the sponsor.",
+  "author": {
+    "name": "somethingwentwell"
+  },
+  "homepage": "https://banana.jevable.ai",
+  "repository": "https://github.com/somethingwentwell/cc-mod-banana-game",
+  "keywords": [
+    "game",
+    "clicker",
+    "banana",
+    "mods",
+    "llm-tokens"
+  ],
   "types": "./types/index.d.ts",
   "userConfig": {
     "contentUrl": {
