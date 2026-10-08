@@ -10,11 +10,20 @@
       "name": "banana",
       "source": "./",
       "description": "A clicker pane that opens while Claude thinks. Earn coins, catch rare bananas, climb the weekly leaderboard, and redeem $1 of LLM tokens from the sponsor.",
-      "author": { "name": "somethingwentwell" },
+      "author": {
+        "name": "somethingwentwell"
+      },
       "homepage": "https://banana.jevable.ai",
       "repository": "https://github.com/somethingwentwell/cc-mod-banana-game",
+      "license": "MIT",
       "category": "games",
-      "keywords": ["game", "clicker", "banana", "mods", "llm-tokens"]
+      "keywords": [
+        "game",
+        "clicker",
+        "banana",
+        "mods",
+        "llm-tokens"
+      ]
     }
   ]
 }

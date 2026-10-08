@@ -95,3 +95,5 @@ The mod hot-reloads as you edit it. `claude plugin validate .` checks the manife
 ---
 
 The sponsor side (the token gateway, prices and payouts) lives in its own repo, `cc-mod-banana-server`.
+
+MIT licensed. See [LICENSE](LICENSE).

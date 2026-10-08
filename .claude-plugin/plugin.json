@@ -8,6 +8,7 @@
   },
   "homepage": "https://banana.jevable.ai",
   "repository": "https://github.com/somethingwentwell/cc-mod-banana-game",
+  "license": "MIT",
   "keywords": [
     "game",
     "clicker",
