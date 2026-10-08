@@ -23,25 +23,25 @@ You need [Claude Code](https://claude.com/claude-code) and git.
 **1. Clone the mod**
 
 ```bash
-git clone https://github.com/somethingwentwell/cc-mod-banana.git
+git clone https://github.com/somethingwentwell/cc-mod-banana-game.git
 ```
 
 **2. Find its full path**
 
 ```bash
-cd cc-mod-banana
+cd cc-mod-banana-game
 pwd
 ```
 
-`pwd` prints the folder's full path, for example `/Users/you/cc-mod-banana`. On Windows PowerShell the same command works, or use `(Get-Location).Path`.
+`pwd` prints the folder's full path, for example `/Users/you/cc-mod-banana-game`. On Windows PowerShell the same command works, or use `(Get-Location).Path`.
 
 **3. Start Claude Code with the mod**
 
 ```bash
-claude --plugin-dir /path/to/cc-mod-banana
+claude --plugin-dir /path/to/cc-mod-banana-game
 ```
 
-Replace `/path/to/cc-mod-banana` with the path `pwd` printed. If you are still inside the folder, this does the same thing:
+Replace `/path/to/cc-mod-banana-game` with the path `pwd` printed. If you are still inside the folder, this does the same thing:
 
 ```bash
 claude --plugin-dir "$(pwd)"
@@ -97,7 +97,7 @@ Prefer to play offline? Set **Server URL** and **Content URL** to empty under th
 Where you can't pass `--plugin-dir`, list the folder in the `env` block of `~/.claude/settings.json` and restart the app:
 
 ```json
-{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "/path/to/cc-mod-banana" } }
+{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "/path/to/cc-mod-banana-game" } }
 ```
 
 On the desktop the banana and the sponsor's logo are drawn as vector art.
@@ -105,7 +105,7 @@ On the desktop the banana and the sponsor's logo are drawn as vector art.
 ## Updating
 
 ```bash
-cd /path/to/cc-mod-banana
+cd /path/to/cc-mod-banana-game
 git pull
 ```
 
